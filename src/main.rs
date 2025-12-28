@@ -1,3 +1,4 @@
+use std::env;
 use std::fs::File;
 use std::io::{BufReader, BufRead};
 use csv::Writer;
@@ -39,9 +40,12 @@ fn clean_record(value: &str) -> Result<&str, regex::Error> {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let writer = &mut Writer::from_path("dump.csv")?;
+    let args: Vec<String> = env::args().collect();
+    let mut file_path = "dump.sql";
+    if args.len() > 1 {
+        file_path = &args[1];
+    }
 
-    let file_path = "dump.sql";
     let file = match File::open(file_path) {
         Ok(file) => file,
         Err(error) => {
@@ -50,6 +54,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     };
 
+    let writer = &mut Writer::from_path("dump.csv")?;
     let reader = BufReader::new(file);
 
     let mut insert_statement = false;
