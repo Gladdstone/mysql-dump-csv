@@ -1,4 +1,4 @@
-# SQL Dump to CSV Converter (Rust)
+# SQL Dump to CSV Converter
 
 MySQL generates a dump file with mysqldump. This is a simple Rust program that parses the dump file and converts the inserted values into a CSV file.
 
